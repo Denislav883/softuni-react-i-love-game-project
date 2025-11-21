@@ -9,7 +9,7 @@ export default function Header() {
                 <Link to="/games">Catalog</Link>
                 {/* <!-- Logged-in users --> */}
                 <div id="user">
-                    <a href="#">Add Game</a>
+                    <Link to="/games/create">Add Game</Link>
                     <a href="#">Logout</a>
                 </div>
                 {/* <!-- Guest users --> */}

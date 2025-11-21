@@ -38,5 +38,15 @@
         "imageUrl": "/images/cyberpunk.png",
         "summary": "An open-world, action-adventure story set in Night City, a megalopolis obsessed with power, glamour and body modification. You play as V, a mercenary outlaw going after a one-of-a-kind implant that is the key to immortality.",
         "_createdOn": 1607558400000
+    },
+    "01706de9-9a66-47b4-afe5-7334b0344443": {
+        "_id": "01706de9-9a66-47b4-afe5-7334b0344443",
+        "title": "Apex Legends",
+        "genre": "Battle Royale",
+        "players": 70000,
+        "date": "2019-02-04",
+        "imageUrl": "https://cdn1.epicgames.com/spt-assets/5dcd88f4e2094a698ebffa43438edc33/apex-legends-1mf51.jpg",
+        "summary": "Apex Legends is a free-to-play, team-based battle royale game where squads of three or two players compete to be the last ones standing. Set in the Titanfall universe, players choose from a roster of \"Legends,\" characters with unique abilities, to outlast their opponents. Gameplay involves scavenging for weapons and gear, using strategic abilities, and staying within a shrinking \"Ring\".",
+        "_createdOn": 1763761403471
     }
 }
