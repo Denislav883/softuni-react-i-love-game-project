@@ -18,7 +18,11 @@ function App() {
             throw new Error("Email is taken!");
         }
 
-        setRegisterredUsers((state) => [...state, { email, password }]);
+        const newUser = { email, password };
+
+        setRegisterredUsers((state) => [...state, newUser]);
+
+        setUser(newUser);
     }
 
     const loginHandler = (email, password) => {
