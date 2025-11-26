@@ -13,7 +13,7 @@ export default function CreateComment({
     }
 
     const submitHandler = () => {
-        request("http://localhost3030/jsonstore/comments", "POST", {
+        request("http://localhost:3030/jsonstore/comments", "POST", {
             author: user.email,
             message: comment,
             gameId,

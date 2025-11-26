@@ -1,17 +1,33 @@
+import { useEffect, useState } from "react";
+import { useParams } from "react-router";
+import request from "../../../utils/request";
+
 export default function DetailsComments() {
+    const [comments, setComments] = useState([]);
+    const { gameId } = useParams();
+
+    useEffect(() => {
+        request("http://localhost:3030/jsonstore/comments")
+            .then(result => {
+                const gameComments = Object.values(result).filter(comment => comment.gameId === gameId);
+                setComments(gameComments);
+            })
+    }), [gameId];
+
     return (
         <div className="details-comments">
             <h2>Comments:</h2>
             <ul>
-                <li className="comment">
-                    <p>Content: A masterpiece of world design, though the boss fights are brutal.</p>
-                </li>
-                <li className="comment">
-                    <p>Content: Truly feels like a next-gen evolution of the Souls formula!</p>
-                </li>
+                {comments.map(comment => (
+                    <li key={comment._id} className="comment">
+                        <p>{comment.author}: {comment.message}</p>
+                    </li>
+                ))}
             </ul>
-            {/* <!-- Display paragraph: If there are no games in the database --> */}
-            {/* <!-- <p className="no-comment">No comments.</p> --> */}
+            
+            {!comments.length === 0 && (
+                <p className="no-comment">No comments.</p>
+            )}
         </div>
     );
 }
