@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router";
 
 export default function Register({
-    user,
     onRegister
 }) {
     const navigate = useNavigate();
@@ -30,7 +29,7 @@ export default function Register({
                 <div className="container">
                     <div className="brand-logo"></div>
                     <h1>Register</h1>
-                    {user && <h2>You are already ergisterd with {user.email}</h2>}
+
                     <label htmlFor="email">Email:</label>
                     <input type="email" id="email" name="email" placeholder="Your Email" />
 
