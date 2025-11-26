@@ -18,9 +18,13 @@ export default function Register({
             return alert("Password missmatch!")
         }
 
-        onRegister(email);
-
-        navigate("/");
+        try {
+            onRegister(email, password);
+    
+            navigate("/");
+        } catch(err) {
+            alert(err.message);
+        }
     }
 
     return (
