@@ -6,8 +6,16 @@ import Catalog from "./components/catalog/Catalog";
 import Details from "./components/details/Details";
 import Create from "./components/create/Create";
 import Register from "./components/register/Register";
+import { useState } from "react";
 
 function App() {
+    const [user, setUser] = useState(null);
+
+    const registerHandler = (email) => {
+        setUser({
+            email
+        })
+    }
 
     return (
         <>
@@ -18,7 +26,7 @@ function App() {
             <Route path="/games" element={<Catalog />} />
             <Route path="/games/:gameId/details" element={<Details />} />
             <Route path="/games/create" element={<Create />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/register" element={<Register user={user} onRegister={registerHandler} />} />
         </Routes>
 
             <Footer />
