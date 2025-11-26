@@ -6,14 +6,14 @@ export default function Home() {
 
     useEffect(() => {
         fetch("http://localhost:3030/jsonstore/games")
-        .then(response => response.json())
-        .then(result => {
-            const resultGames = Object.values(result)
-            .sort((a, b) => b._createdOn - a._createdOn)
-            .slice(0, 3);
+            .then(response => response.json())
+            .then(result => {
+                const resultGames = Object.values(result)
+                    .sort((a, b) => b._createdOn - a._createdOn)
+                    .slice(0, 3);
 
-            setLatestGames(resultGames);
-        })
+                setLatestGames(resultGames);
+            })
     }, []);
 
     return (
@@ -24,16 +24,16 @@ export default function Home() {
                 <img id="logo-left" src="./images/logo.png" alt="logo" />
             </div>
 
-            <div id="home-page" />
-            <h1>Latest Games</h1>
-            <div id="latest-wrap">
-                <div className="home-container">
+            <div id="home-page">
+                <h1>Latest Games</h1>
+                <div id="latest-wrap">
+                    <div className="home-container">
 
-                    {latestGames.length === 0 && <p className="no-articles">No games yet</p>}
+                        {latestGames.length === 0 && <p className="no-articles">No games yet</p>}
 
-                    {latestGames.map(game => <GameCard  key={game._id} {...game} />)}
+                        {latestGames.map(game => <GameCard key={game._id} {...game} />)}
+                    </div>
                 </div>
-
             </div>
         </section>
     );
