@@ -8,6 +8,7 @@ import Create from "./components/create/Create";
 import Register from "./components/register/Register";
 import { useState } from "react";
 import Login from "./components/login/Login";
+import Logout from "./components/logout/Logout";
 
 function App() {
     const [registeredUsers, setRegisterredUsers] = useState([]);
@@ -35,6 +36,10 @@ function App() {
         setUser(user);
     }
 
+    const logoutHandler = () => {
+        setUser(null);
+    }
+
     return (
         <>
             <Header />
@@ -46,6 +51,7 @@ function App() {
                 <Route path="/games/create" element={<Create />} />
                 <Route path="/register" element={<Register onRegister={registerHandler} />} />
                 <Route path="/login" element={<Login onLogin={loginHandler} />} />
+                <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
             </Routes>
 
             <Footer />
