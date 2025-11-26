@@ -3,21 +3,29 @@ import request from "../../../utils/request";
 import { useParams } from "react-router";
 
 export default function CreateComment({
-    user
+    user,
+    onCreate
 }) {
     const { gameId } = useParams();
-    const [comment, setComments] = useState("");
+    const [comment, setComment] = useState("");
 
     const changeHandler = (e) => {
-        setComments(e.target.value);
+        setComment(e.target.value);
     }
 
     const submitHandler = () => {
-        request("http://localhost:3030/jsonstore/comments", "POST", {
-            author: user.email,
-            message: comment,
-            gameId,
-        });
+        try {
+            request("http://localhost:3030/jsonstore/comments", "POST", {
+                author: user.email,
+                message: comment,
+                gameId,
+            });
+            
+            setComment("");
+            onCreate();
+        } catch(err) {
+            alert(err.message);
+        }
     }
 
     return (
