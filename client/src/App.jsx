@@ -10,25 +10,20 @@ import { useState } from "react";
 import Login from "./components/login/Login";
 import Logout from "./components/logout/Logout";
 import Edit from "./components/edit/Edit";
+import request from "./utils/request";
 
 function App() {
-    const [registeredUsers, setRegisterredUsers] = useState([]);
     const [user, setUser] = useState(null);
 
-    const registerHandler = (email, password) => {
-        if (registeredUsers.some(user => user.email === email)) {
-            throw new Error("Email is taken!");
-        }
-
+    const registerHandler = async (email, password) => {
         const newUser = { email, password };
 
-        setRegisterredUsers((state) => [...state, newUser]);
+       const result = await request("http://localhost:3030/users/register", "POST", newUser);
 
-        setUser(newUser);
+        setUser(result);
     }
 
     const loginHandler = (email, password) => {
-        const user = registeredUsers.find(u => u.email === email && u.password === password);    
 
         if (!user) {
             throw new Error("Invalid email or password!");
