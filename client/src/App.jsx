@@ -10,11 +10,12 @@ import { useState } from "react";
 import Login from "./components/login/Login";
 import Logout from "./components/logout/Logout";
 import Edit from "./components/edit/Edit";
-import request from "./utils/request";
 import UserContext from "./contexts/UserContext";
+import useRequest from "./hooks/useFetch";
 
 function App() {
     const [user, setUser] = useState(null);
+    const { request } = useRequest();
 
     const registerHandler = async (email, password) => {
         const newUser = { email, password };
