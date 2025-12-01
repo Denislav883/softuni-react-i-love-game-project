@@ -6,7 +6,7 @@ export default function useForm(callback, initialValues) {
     const changeHandler = (e) => {
         setValues(state => ({
             ...state,
-            [e.target.name]: [e.target.values]
+            [e.target.name]: e.target.value
         }));
     };
 
@@ -17,14 +17,14 @@ export default function useForm(callback, initialValues) {
     const register = (fieldName) => {
         return {
             name: fieldName,
-            onchange: changeHandler,
+            onChange: changeHandler,
             value: values[fieldName]
         }
     }
 
     return {
-        register,
         values,
+        register,
         changeHandler,
         formAction
     }
