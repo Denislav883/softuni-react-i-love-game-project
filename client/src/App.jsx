@@ -1,5 +1,4 @@
 import { Route, Routes } from "react-router";
-import { useState } from "react";
 import Footer from "./components/footer/Footer";
 import Header from "./components/header/Header";
 import Home from "./components/home/Home";
@@ -11,42 +10,14 @@ import Login from "./components/login/Login";
 import Logout from "./components/logout/Logout";
 import Edit from "./components/edit/Edit";
 import UserContext from "./contexts/UserContext";
-import useRequest from "./hooks/useFetch";
+import { useContext } from "react";
 
 function App() {
-    const [user, setUser] = useState(null);
-    const { request } = useRequest();
-
-    const registerHandler = async (email, password) => {
-        const newUser = { email, password };
-
-        const result = await request("http://localhost:3030/users/register", "POST", newUser);
-
-        setUser(result);
-    }
-
-    const loginHandler = async (email, password) => {
-        const result = await request("http://localhost:3030/users/login", "POST", { email, password });
-
-        setUser(result);
-    }
-
-    const logoutHandler = () => {
-        setUser(null);
-    }
-
-    const userContextValues = {
-        user,
-        isAuthenticated: !!user?.accessToken,
-        registerHandler,
-        loginHandler,
-        logoutHandler
-    }
+    const { user } = useContext(UserContext);
 
     return (
         <>
-        <UserContext.Provider value={userContextValues}>
-            <Header />
+            <Header user={user} />
 
             <Routes>
                 <Route path="/" element={<Home />} />
@@ -56,11 +27,10 @@ function App() {
                 <Route path="/games/create" element={<Create />} />
                 <Route path="/register" element={<Register />} />
                 <Route path="/login" element={<Login />} />
-                <Route path="/logout" element={<Logout onLogout={logoutHandler} />} />
+                <Route path="/logout" element={<Logout />} />
             </Routes>
 
             <Footer />
-            </UserContext.Provider>
         </>
     );
 }
