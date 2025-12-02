@@ -26,5 +26,7 @@ export default function useRequest() {
         return (result);
     };
 
-    return request;
+    return {
+        request
+    };
 }
