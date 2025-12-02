@@ -38,7 +38,7 @@ export function UserProvider({
     const logoutHandler = () => {
         return request("http://localhost:3030/users/logout", "GET", null, { accessToken: user.accessToken })
             .finally(() => setUser(null));
-    }
+    }   
 
     const userContextValues = {
         user,
