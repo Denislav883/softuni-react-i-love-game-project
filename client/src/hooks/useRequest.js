@@ -20,10 +20,10 @@ export default function useRequest(url, initialState) {
             options.body = JSON.stringify(data);
         }
 
-        if(config.accessToken || isAuthenticated) {
+        if(config.accessToken || (isAuthenticated && user?.accessToken)) {
             options.headers = {
                 ...options.headers,
-                "X-Authorization": config.accessToken || user.accessToken
+                "X-Authorization": config.accessToken || user?.accessToken
             }
         }
 

@@ -35,8 +35,13 @@ export function UserProvider({
         setUser(result);
     }
 
-    const logoutHandler = () => {
-        return request("http://localhost:3030/users/logout", "GET", null, { accessToken: user.accessToken })
+    const logoutHandler = async () => {
+        const accessToken = user?.accessToken;
+        if (!accessToken) {
+            setUser(null);
+            return;
+        }
+        return request("http://localhost:3030/users/logout", "GET", null, { accessToken })
             .finally(() => setUser(null));
     }   
 
