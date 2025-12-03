@@ -1,51 +1,45 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router";
-import request from "../../utils/request";
-
-const initialValues = {
-    title: '',
-    genre: '',
-    players: '',
-    date: '',
-    imageUrl: '',
-    summary: ''
-};
+import useForm from "../../hooks/useForm";
+import useRequest from "../../hooks/useRequest";
 
 export default function Edit() {
-    const navigate = useNavigate();
-    const { gameId } = useParams();
-    const [values, setValues] = useState(initialValues);
+    const editGmaeHandler = async (values) => {
+        try {
+            await request(`http://localhost:3030/data/games/${gameId}`, "PUT", values);
 
-    const changeHandler = (e) => {
-        setValues(state => ({
-            ...state,
-            [e.target.name]: e.target.value
-        }));
+            navigate(`/games/${gameId}/details`);
+        } catch (err) {
+            alert(err.message);
+        }
     }
 
+    const { register, formAction, setValues } = useForm(editGmaeHandler, {
+        title: '',
+        genre: '',
+        players: '',
+        date: '',
+        imageUrl: '',
+        summary: ''
+    });
+
+    const navigate = useNavigate();
+    const { gameId } = useParams();
+    const { request } = useRequest(`http://localhost:3030/data/games/${gameId}`, {});
+
     useEffect(() => {
-        request(`http://localhost:3030/jsonstore/games/${gameId}`)
+        request(`http://localhost:3030/data/games/${gameId}`)
             .then(result => {
                 setValues(result);
             })
             .catch(err => {
                 alert(err.message);
             })
-    }, [gameId]);
-
-    const editGmaeHandler = async () => {
-        try {
-            await request(`http://localhost:3030/jsonstore/games/${gameId}`, "PUT", values);
-
-            navigate(`/games/${gameId}/details`);
-        } catch(err) {
-            alert(err.message);
-        }
-    }
+    }, [gameId, setValues]);
 
     return (
         <section id="edit-page">
-            <form id="add-new-game" action={editGmaeHandler}>
+            <form id="add-new-game" action={formAction}>
                 <div className="container">
 
                     <h1>Edit Game</h1>
@@ -55,68 +49,56 @@ export default function Edit() {
                         <input
                             type="text"
                             id="gameName"
-                            name="title"
-                            onChange={changeHandler} 
-                            value={values.title}
+                            {...register("title")}
                             placeholder="Enter game title..."
                         />
                     </div>
 
                     <div className="form-group-half">
                         <label htmlFor="genre">Genre:</label>
-                        <input 
-                        type="text" 
-                        id="genre" 
-                        name="genre" 
-                        onChange={changeHandler}
-                        value={values.genre}
-                        placeholder="Enter game genre..." 
+                        <input
+                            type="text"
+                            id="genre"
+                            {...register("genre")}
+                            placeholder="Enter game genre..."
                         />
                     </div>
 
                     <div className="form-group-half">
                         <label htmlFor="activePlayers">Active Players:</label>
-                        <input 
-                        type="number" 
-                        id="activePlayers" 
-                        name="players" 
-                        onChange={changeHandler}
-                        value={values.players}
-                        min="0" 
-                        placeholder="0" 
+                        <input
+                            type="number"
+                            id="activePlayers"
+                            {...register("players")}
+                            min="0"
+                            placeholder="0"
                         />
                     </div>
 
                     <div className="form-group-half">
                         <label htmlFor="releaseDate">Release Date:</label>
-                        <input 
-                        type="date" 
-                        id="releaseDate" 
-                        name="date" 
-                        onChange={changeHandler} 
-                        value={values.date}
+                        <input
+                            type="date"
+                            id="releaseDate"
+                            {...register("date")}
                         />
                     </div>
 
                     <div className="form-group-full">
                         <label htmlFor="imageUrl">Image URL:</label>
-                        <input 
-                        type="text" 
-                        id="imageUrl" 
-                        name="imageUrl" 
-                        onChange={changeHandler} 
-                        value={values.imageUrl}
-                        placeholder="Enter image URL..." 
+                        <input
+                            type="text"
+                            id="imageUrl"
+                            {...register("imageUrl")}
+                            placeholder="Enter image URL..."
                         />
                     </div>
 
                     <div className="form-group-full">
                         <label htmlFor="summary">Summary:</label>
-                        <textarea 
-                            name="summary" 
-                            id="summary" 
-                            onChange={changeHandler} 
-                            value={values.summary}
+                        <textarea
+                            {...register("summary")}
+                            id="summary"
                             rows="5"
                             placeholder="Write a brief summary..."
                         ></textarea>
