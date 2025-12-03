@@ -1,41 +1,37 @@
-import { useState } from "react";
-import request from "../../../utils/request";
 import { useParams } from "react-router";
+import useRequest from "../../../hooks/useRequest";
+import useForm from "../../../hooks/useForm";
 
 export default function CreateComment({
     user,
     onCreate
 }) {
     const { gameId } = useParams();
-    const [comment, setComment] = useState("");
+    const { request } = useRequest();
 
-    const changeHandler = (e) => {
-        setComment(e.target.value);
-    }
-
-    const submitHandler = () => {
+    const submitHandler = async ({ comment }) => {
         try {
-            request("http://localhost:3030/jsonstore/comments", "POST", {
-                author: user.email,
+            await request("http://localhost:3030/data/comments", "POST", {
                 message: comment,
                 gameId,
             });
             
-            setComment("");
             onCreate();
         } catch(err) {
             alert(err.message);
         }
     }
 
+    const { register,formAction } = useForm(submitHandler, {
+        comment: ""
+    });
+
     return (
         <article className="create-comment">
             <label>Add new comment:</label>
-            <form className="form" action={submitHandler}>
+            <form className="form" action={formAction}>
                 <textarea 
-                name="comment" 
-                onChange={changeHandler} 
-                value={comment} 
+                {...register("comment")} 
                 placeholder="Comment......" 
                 ></textarea>
                 <input 

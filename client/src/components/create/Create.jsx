@@ -11,7 +11,6 @@ export default function Create() {
         const data = values;
 
         data.players = Number(data.players);
-        data._createdOn = Date.now();
 
         try {
             await request("http://localhost:3030/data/games", "POST", data);
