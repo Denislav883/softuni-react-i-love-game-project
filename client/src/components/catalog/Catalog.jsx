@@ -1,24 +1,8 @@
-import { useEffect, useState } from "react";
-import GameCard from "../game-card/GameCard";
-
-const BASE_URL = 'http://localhost:3030/jsonstore/games';
+import GameCard from "../game-card/GameCard";   
+import useRequest from "../../hooks/useRequest";
 
 export default function Catalog() {
-    const [games, setGames] = useState([]);
-
-    useEffect(() => {
-        (async () => {
-            try {
-                const response = await fetch(BASE_URL);
-
-                const result = await response.json();
-
-                setGames(Object.values(result));
-            } catch (err) {
-                alert(err.message);
-            }
-        })();
-    }, []);
+    const { data: games } = useRequest("http://localhost:3030/data/games", []);
 
     return (
         <section id="catalog-page">
@@ -29,7 +13,7 @@ export default function Catalog() {
             <div className="catalog-container">
                 {games.map(game => <GameCard key={game._id} {...game} />)}
             </div>
-            
+
         </section>
     );
 }

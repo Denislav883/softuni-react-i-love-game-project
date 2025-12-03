@@ -18,7 +18,7 @@ const UserContext = createContext({
 export function UserProvider({
     children
 }) {
-        const [user, setUser] = useState(null);
+    const [user, setUser] = useState(null);
     const { request } = useRequest();
 
     const registerHandler = async (email, password) => {
