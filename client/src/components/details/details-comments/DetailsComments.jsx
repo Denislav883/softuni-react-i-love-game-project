@@ -22,7 +22,7 @@ export default function DetailsComments() {
                 ))}
             </ul>
             
-            {!comments.length === 0 && (
+            {comments.length === 0 && (
                 <p className="no-comment">No comments.</p>
             )}
         </div>
