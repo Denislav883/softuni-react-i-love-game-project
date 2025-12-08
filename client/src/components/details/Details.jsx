@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { act, useContext, useOptimistic } from "react";
 import { useNavigate, useParams, Link } from "react-router";
 import CreateComment from "./create-comment/CreateComment";
 import DetailsComments from "./details-comments/DetailsComments";
@@ -6,11 +6,25 @@ import useRequest from "../../hooks/useRequest";
 import UserContext from "../../contexts/UserContext";
 
 export default function Details() {
-    const { user, isAuthenticated } = useContext(UserContext);
-    const navigate = useNavigate();
     const { gameId } = useParams();
-    const [refresh, setRefresh] = useState(false);
+    const navigate = useNavigate();
+    const { user, isAuthenticated } = useContext(UserContext);
     const { data: game, request } = useRequest(`http://localhost:3030/data/games/${gameId}`, {});
+
+    const urlParams = new URLSearchParams({
+        where: `gameId="${gameId}"`,
+        load: "author=_ownerId:users"
+    })
+
+    const { data: comments, setData: setComments } = useRequest(`http://localhost:3030/data/comments?${urlParams.toString()}`, []);
+    const [optimisticComments, dispatchOptimisticComments] = useOptimistic(comments, (state, action) => {
+        switch (action.type) {
+            case "ADD_COMMENT":
+                return [...state, action.payload];
+            default:
+                return state;
+        }
+    });
 
     const deleteGameHandler = async () => {
         const isConfirm = confirm(`Are you sure you want to delete game: ${game.title}`);
@@ -28,8 +42,12 @@ export default function Details() {
         }
     }
 
-    const refreshHandler = () => {
-        setRefresh(state => !state);
+    const createStartCommentHandler = (newComment) => {
+        dispatchOptimisticComments({ type: "ADD_COMMENT", payload: { ...newComment, author: user, pending: true } });
+    }
+    
+    const createEndCommentHandler = (createdComment) => {
+        setComments(prevComments => [...prevComments, {...createdComment, author: user}]);
     }
 
     return (
@@ -74,10 +92,10 @@ export default function Details() {
                     <button className="button" onClick={deleteGameHandler}>Delete</button>
                 </div>
 
-                <DetailsComments refresh={refresh} />
+                <DetailsComments comments={optimisticComments} />
             </div>
 
-            {isAuthenticated && <CreateComment user={user} onCreate={refreshHandler} />}
+            {isAuthenticated && <CreateComment user={user} onCreateStart={createStartCommentHandler} onCreateEnd={createEndCommentHandler} />}
         </section>
     );
 }
