@@ -25,13 +25,13 @@ export function UserProvider({
     const registerHandler = async (email, password) => {
         const newUser = { email, password };
 
-        const result = await request("http://127.0.0.1:5001/i-love-gamee/us-central1/server/users/register", "POST", newUser);
+        const result = await request(`${import.meta.env.VITE_APP_SERVER_URL}/users/register`, "POST", newUser);
 
         setUser(result);
     }
 
     const loginHandler = async (email, password) => {
-        const result = await request("http://127.0.0.1:5001/i-love-gamee/us-central1/server/users/login", "POST", { email, password });
+        const result = await request(`${import.meta.env.VITE_APP_SERVER_URL}/users/login`, "POST", { email, password });
 
         setUser(result);
     }
@@ -42,7 +42,7 @@ export function UserProvider({
             setUser(null);
             return;
         }
-        return request("http://127.0.0.1:5001/i-love-gamee/us-central1/server/users/logout", "GET", null, { accessToken })
+        return request(`${import.meta.env.VITE_APP_SERVER_URL}/users/logout`, "GET", null, { accessToken })
             .finally(() => setUser(null));
     }   
 

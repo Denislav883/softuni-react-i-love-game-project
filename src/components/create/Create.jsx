@@ -13,7 +13,7 @@ export default function Create() {
         data.players = Number(data.players);
 
         try {
-            await request("http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games", "POST", data);
+            await request(`${import.meta.env.VITE_APP_SERVER_URL}/data/games`, "POST", data);
 
             navigate("/games");
         } catch (err) {

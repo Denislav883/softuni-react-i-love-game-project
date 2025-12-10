@@ -6,7 +6,7 @@ import useRequest from "../../hooks/useRequest";
 export default function Edit() {
     const editGmaeHandler = async (values) => {
         try {
-            await request(`http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games/${gameId}`, "PUT", values);
+            await request(`${import.meta.env.VITE_APP_SERVER_URL}/data/games/${gameId}`, "PUT", values);
 
             navigate(`/games/${gameId}/details`);
         } catch (err) {
@@ -25,10 +25,10 @@ export default function Edit() {
 
     const navigate = useNavigate();
     const { gameId } = useParams();
-    const { request } = useRequest(`http://127.0.0.1:5001/i-love-gamee/us-central1/server/server/data/games/${gameId}`, {});
+    const { request } = useRequest(`${import.meta.env.VITE_APP_SERVER_URL}/data/games/${gameId}`, {});
 
     useEffect(() => {
-        request(`http://127.0.0.1:5001/i-love-gamee/us-central1/server/server/games/${gameId}`)
+        request(`${import.meta.env.VITE_APP_SERVER_URL}/data/games/${gameId}`)
             .then(result => {
                 setValues(result);
             })

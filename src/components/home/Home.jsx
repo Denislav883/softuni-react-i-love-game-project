@@ -2,7 +2,7 @@ import GameCard from "../game-card/GameCard";
 import useRequest from "../../hooks/useRequest";
 
 export default function Home() {
-    const { data: latestGames } = useRequest("http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games?sortBy=_createdOn%20desc&pageSize=3", []);
+    const { data: latestGames } = useRequest(`${import.meta.env.VITE_APP_SERVER_URL}/data/games?sortBy=_createdOn%20desc&pageSize=3`, []);
 
     return (
         <section id="welcome-world">
