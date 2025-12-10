@@ -9,14 +9,14 @@ export default function Details() {
     const { gameId } = useParams();
     const navigate = useNavigate();
     const { user, isAuthenticated } = useContext(UserContext);
-    const { data: game, request } = useRequest(`http://localhost:3030/data/games/${gameId}`, {});
+    const { data: game, request } = useRequest(`http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games/${gameId}`, {});
 
     const urlParams = new URLSearchParams({
         where: `gameId="${gameId}"`,
         load: "author=_ownerId:users"
     })
 
-    const { data: comments, setData: setComments } = useRequest(`http://localhost:3030/data/comments?${urlParams.toString()}`, []);
+    const { data: comments, setData: setComments } = useRequest(`http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/comments?${urlParams.toString()}`, []);
     const [optimisticComments, dispatchOptimisticComments] = useOptimistic(comments, (state, action) => {
         switch (action.type) {
             case "ADD_COMMENT":
@@ -34,7 +34,7 @@ export default function Details() {
         }
 
         try {
-            await request(`http://localhost:3030/data/games/${gameId}`, "DELETE");
+            await request(`http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games/${gameId}`, "DELETE");
 
             navigate("/games");
         } catch (err) {

@@ -21,7 +21,7 @@ export default function CreateComment({
         onCreateStart(data);
 
         try {
-            const createdComment = await request("http://localhost:3030/data/comments", "POST", data);
+            const createdComment = await request("http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/comments", "POST", data);
 
             onCreateEnd(createdComment);
         } catch (err) {

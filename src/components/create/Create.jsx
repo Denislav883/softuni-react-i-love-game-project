@@ -13,7 +13,7 @@ export default function Create() {
         data.players = Number(data.players);
 
         try {
-            await request("http://localhost:3030/data/games", "POST", data);
+            await request("http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games", "POST", data);
 
             navigate("/games");
         } catch (err) {

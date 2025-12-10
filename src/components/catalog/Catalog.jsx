@@ -2,7 +2,7 @@ import GameCard from "../game-card/GameCard";
 import useRequest from "../../hooks/useRequest";
 
 export default function Catalog() {
-    const { data: games } = useRequest("http://localhost:3030/data/games", []);
+    const { data: games } = useRequest("http://127.0.0.1:5001/i-love-gamee/us-central1/server/data/games", []);
 
     return (
         <section id="catalog-page">
