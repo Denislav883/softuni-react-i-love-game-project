@@ -11,6 +11,7 @@ import Logout from "./components/logout/Logout";
 import Edit from "./components/edit/Edit";
 import UserContext from "./contexts/UserContext";
 import { useContext } from "react";
+import { ToastContainer } from "react-toastify";
 
 function App() {
     const { user } = useContext(UserContext);
@@ -18,6 +19,8 @@ function App() {
     return (
         <>
             <Header />
+
+            <ToastContainer />
 
             <Routes>
                 <Route path="/" element={<Home />} />
